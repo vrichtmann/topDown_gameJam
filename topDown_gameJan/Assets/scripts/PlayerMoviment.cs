@@ -92,6 +92,8 @@ public class PlayerMoviment : MonoBehaviour
     void changeSkin()
     {
         AnimatorOverrideController Armadura2 = Resources.Load("skin/armor/armor5") as AnimatorOverrideController;
+        AnimatorOverrideController hat2 = Resources.Load("skin/hat/hat4") as AnimatorOverrideController;
         armorAnimator.runtimeAnimatorController = Armadura2;
+        hatAnimator.runtimeAnimatorController = hat2;
     }
 }
