@@ -8,6 +8,7 @@ public class Npc : MonoBehaviour
     // Start is called before the first frame update
 
     [SerializeField] private GameObject ETalk;
+    [SerializeField] private GameObject Shop;
     void Start()
     {
         
@@ -16,6 +17,10 @@ public class Npc : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Space) && ETalk.active)
+        {
+            Shop.gameObject.active = true;
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D other)

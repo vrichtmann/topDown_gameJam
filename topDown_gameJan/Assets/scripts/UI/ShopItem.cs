@@ -11,6 +11,7 @@ public class ShopItem : MonoBehaviour
     public GameObject ItemImg;
     public GameObject cursorIcon;
     public GameObject selected;
+    public GameObject soldOut;
 
     private void Start()
     {
@@ -20,6 +21,7 @@ public class ShopItem : MonoBehaviour
         nameItem.gameObject.GetComponent<Text>().color = new Color(255f, 255f, 255f, 0);
         textBox.gameObject.GetComponent<Image>().color = new Color(255f, 255f, 255f, 0);
         selected.gameObject.GetComponent<Image>().color = new Color(255f, 255f, 255f, 0);
+        soldOut.gameObject.GetComponent<Image>().color = new Color(255f, 255f, 255f, 0);
     }
     public void setNameItem(string _name)
     {
@@ -35,6 +37,11 @@ public class ShopItem : MonoBehaviour
     {
         ItemImg.GetComponent<Image>().sprite = _image;
         placeHolder.gameObject.SetActive(false);
+    }
+
+    public void activeSoldOut()
+    {
+        soldOut.gameObject.GetComponent<Image>().color = new Color(255f, 255f, 255f, 0);
     }
 
     public void selectItem()

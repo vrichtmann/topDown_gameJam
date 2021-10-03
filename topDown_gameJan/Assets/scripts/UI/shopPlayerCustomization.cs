@@ -7,7 +7,7 @@ public class shopPlayerCustomization : MonoBehaviour
 {
     public GameObject armor;
     public GameObject Hat;
-    public GameObject Glasses;
+    public GameObject Glass;
 
     [HideInInspector] public Sprite initArmorIMG;
     [HideInInspector] public Sprite initHatIMG;
@@ -16,7 +16,7 @@ public class shopPlayerCustomization : MonoBehaviour
     {
         initArmorIMG = armor.GetComponent<Image>().sprite;
         initHatIMG = Hat.GetComponent<Image>().sprite;
-        initGlassesIMG = Glasses.GetComponent<Image>().sprite;
+        initGlassesIMG = Glass.GetComponent<Image>().sprite;
     }
 
 }

@@ -30,7 +30,7 @@ public class PlayerMoviment : MonoBehaviour
     [Space]
     public SpriteRenderer spriteRD;
 
-   
+    public bool inShop = false;
 
     void Update(){
         ProcessInputs();
@@ -46,7 +46,7 @@ public class PlayerMoviment : MonoBehaviour
     }
 
     void Move(){
-        rb.velocity = movimentDir * moveSpeed * playerSpeed;
+        if(!inShop) rb.velocity = movimentDir * moveSpeed * playerSpeed;
     }
 
     void Animate(){
@@ -86,16 +86,39 @@ public class PlayerMoviment : MonoBehaviour
         headAnimator.SetFloat("Speed", moveSpeed);
         handsAnimator.SetFloat("Speed", moveSpeed);
 
-        changeSkin();
+        //changeSkin();
     }
 
-    void changeSkin()
+    public void changeSkin(string _skinID, string _skinType)
     {
-        AnimatorOverrideController Armadura2 = Resources.Load("skin/armor/armor5") as AnimatorOverrideController;
-        AnimatorOverrideController hat2 = Resources.Load("skin/hat/hat4") as AnimatorOverrideController;
-        AnimatorOverrideController glass = Resources.Load("skin/glass/glass3") as AnimatorOverrideController;
-        armorAnimator.runtimeAnimatorController = Armadura2;
-        hatAnimator.runtimeAnimatorController = hat2;
-        glassAnimator.runtimeAnimatorController = glass;
+
+        AnimatorOverrideController skin = Resources.Load("skin/" + _skinType + "/" + _skinID) as AnimatorOverrideController;
+
+        Debug.Log("AUDItório");
+        Debug.Log("_skinID : " + _skinID);
+        Debug.Log("_skinType : " + _skinType);
+
+        if (_skinType == "hat")
+        {
+            Debug.Log("HAT");
+            hatAnimator.runtimeAnimatorController = skin;
+        }
+        else if (_skinType == "glass")
+        {
+            Debug.Log("Glasses");
+            glassAnimator.runtimeAnimatorController = skin;
+        }
+        else if (_skinType == "armor")
+        {
+            Debug.Log("armor");
+            armorAnimator.runtimeAnimatorController = skin;
+        }
+
+        //AnimatorOverrideController Armadura2 = Resources.Load("skin/armor/armor5") as AnimatorOverrideController;
+        //AnimatorOverrideController hat2 = Resources.Load("skin/hat/hat4") as AnimatorOverrideController;
+        //AnimatorOverrideController glass = Resources.Load("skin/glass/glass3") as AnimatorOverrideController;
+        //armorAnimator.runtimeAnimatorController = Armadura2;
+        //hatAnimator.runtimeAnimatorController = hat2;
+        //glassAnimator.runtimeAnimatorController = glass;
     }
 }

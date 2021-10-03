@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 public class ClothesShop : MonoBehaviour
 {
+    [SerializeField] GameObject Shop;
+    [SerializeField] GameObject Player;
     [SerializeField] GameObject leftLockerRoom;
     [SerializeField] GameObject rightLockerRoom;
 
@@ -14,11 +16,11 @@ public class ClothesShop : MonoBehaviour
     [SerializeField] GameObject playerCoin;
     [SerializeField] GameObject total;
     
-
     [SerializeField] itemList[] forsale;
 
     ArrayList seletedItensArray;
     ArrayList seletedIDSArray;
+    ArrayList boughtItemsArray;
 
     private int cursorX = 0;
     private int cursorY = 0;
@@ -30,12 +32,14 @@ public class ClothesShop : MonoBehaviour
         itensShop = new ArrayList();
         seletedItensArray = new ArrayList();
         seletedIDSArray = new ArrayList();
+        boughtItemsArray = new ArrayList();
         createClothesMenu();
     }
 
     void Update(){
         cursorListener();
         selectItemListener();
+        Buy();
         alignCursor(cursorX, cursorY);
     }
 
@@ -98,6 +102,9 @@ public class ClothesShop : MonoBehaviour
             currentItem.setNameItem(_currentItemList.itemName);
             currentItem.setPriceItem(_currentItemList.price);
             currentItem.setItemImg(_currentItemList.figure);
+            if (checkIsBought(_currentItemList)){
+                currentItem.activeSoldOut();
+            }
         }
         else
         {
@@ -105,10 +112,20 @@ public class ClothesShop : MonoBehaviour
         }
     }
 
+    private bool checkIsBought(itemList _shopItem){
+        for(int i = 0; i < boughtItemsArray.Count; i++)
+        {
+            itemList bouthItemList = boughtItemsArray[i] as itemList;
+            if (bouthItemList.id == _shopItem.id)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
     private void alignCursor(int _row, int _colunm)
     {
-        //Debug.Log("MUDOU ROW : " + _row);
-        //Debug.Log("MUDOU Column : " + _colunm);
         int indexCursor = _row + (_colunm * 6);
         
         GameObject oldCursorItem = itensShop[lastCursorIndex] as GameObject;
@@ -156,9 +173,9 @@ public class ClothesShop : MonoBehaviour
                 currentPart = Char.GetComponent<shopPlayerCustomization>().Hat;
                 currentPart.GetComponent<Image>().sprite = targetSkin.GetComponent<Image>().sprite;
             }
-            else if (forsale[currrentID].itemtype.ToString() == "glasses")
+            else if (forsale[currrentID].itemtype.ToString() == "glass")
             {
-                currentPart = Char.GetComponent<shopPlayerCustomization>().Glasses;
+                currentPart = Char.GetComponent<shopPlayerCustomization>().Glass;
                 currentPart.GetComponent<Image>().sprite = targetSkin.GetComponent<Image>().sprite;
             }
             else if (forsale[currrentID].itemtype.ToString() == "armor")
@@ -220,8 +237,6 @@ public class ClothesShop : MonoBehaviour
         return true;
     }
 
-  
-
     private int checkExistType(itemList _selectedItem, ShopItem _currentShopItem)
     {
         for (int i = 0; i < seletedItensArray.Count; i++)
@@ -244,9 +259,9 @@ public class ClothesShop : MonoBehaviour
             GameObject currentPart = Char.GetComponent<shopPlayerCustomization>().Hat;
             currentPart.GetComponent<Image>().sprite =  shopPlayer.initHatIMG;
         }
-        else if (itemType == "glasses")
+        else if (itemType == "glass")
         {
-            GameObject currentPart = Char.GetComponent<shopPlayerCustomization>().Glasses;
+            GameObject currentPart = Char.GetComponent<shopPlayerCustomization>().Glass;
             currentPart.GetComponent<Image>().sprite = shopPlayer.initGlassesIMG;
         }
         else if (itemType == "armor")
@@ -269,5 +284,47 @@ public class ClothesShop : MonoBehaviour
 
         total.GetComponent<TotalBuy>().setTotalValue(totalCount, playerMoney);
     }
-   
+
+    private void Buy()
+    {
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            //Buy
+            PlayerCoin playerCoinComponent = playerCoin.GetComponent<PlayerCoin>();
+            TotalBuy totalComponent = total.GetComponent<TotalBuy>();
+
+            float playerMoney = playerCoinComponent.coin;
+            float totalMoney = totalComponent.total;
+            if (totalMoney <= playerMoney && totalMoney != 0)
+            {
+                 //Debug.Log("CONSEGUE COMPRAR");
+                total.GetComponent<TotalBuy>().setTotalValue((playerMoney - totalMoney), playerMoney);
+                playerCoin.GetComponent<PlayerCoin>().setCoinValue((playerMoney - totalMoney));
+                setPlayerSkin();
+
+                seletedItensArray = new ArrayList();
+                seletedIDSArray = new ArrayList();
+
+                Shop.gameObject.active = false;
+            }
+        }
+    }
+
+    private void setPlayerSkin()
+    {
+        PlayerMoviment playerMV = Player.GetComponent<PlayerMoviment>();
+
+        for (int i = 0; i < seletedItensArray.Count; i++)
+        {
+            var currentSelected = seletedItensArray[i] as itemList;
+
+            boughtItemsArray.Add(currentSelected);
+            playerMV.changeSkin(currentSelected.id.ToString(), currentSelected.itemtype.ToString());
+
+            GameObject currentSelectedItem = itensShop[(int)seletedIDSArray[i]] as GameObject;
+            ShopItem targetShopItem = currentSelectedItem.GetComponent<ShopItem>();
+            targetShopItem.unselectItem();
+        }
+    }
+
 }

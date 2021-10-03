@@ -10,7 +10,7 @@ public class itemList : ScriptableObject
     {
         armor,
         hat,
-        glasses,
+        glass,
         eyes,
         groves
     };
