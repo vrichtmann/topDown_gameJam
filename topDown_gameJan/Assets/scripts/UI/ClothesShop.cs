@@ -11,7 +11,9 @@ public class ClothesShop : MonoBehaviour
     [SerializeField] GameObject rowShopping;
     [SerializeField] GameObject shopItem;
     [SerializeField] GameObject Char;
-
+    [SerializeField] GameObject playerCoin;
+    [SerializeField] GameObject total;
+    
 
     [SerializeField] itemList[] forsale;
 
@@ -168,16 +170,17 @@ public class ClothesShop : MonoBehaviour
             GameObject currentShopItemGB = itensShop[currrentID] as GameObject;
             ShopItem currenShopItem = currentShopItemGB.GetComponent<ShopItem>();
             CheckSelectItem(forsale[currrentID],  currenShopItem, currrentID);
-            //if (CheckSelectItem(forsale[currrentID]),  currentShopItem.GetComponent<ShopItem>())
-            //{
-            //    currentShopItem.GetComponent<ShopItem>().selectItem();
-            //}
-            //else
-            //{
-            //    currentShopItem.GetComponent<ShopItem>().unselectItem();
-            //}
-            Debug.Log("seletedItensArray : " + seletedItensArray);
+            calculateTotal();
         }
+    }
+
+    private void updateCursor()
+    {
+        if (cursorX > 5) cursorX = 0;
+        if (cursorX < 0) cursorX = 5;
+        if (cursorY > (numberOfRow - 1)) cursorY = 0;
+        if (cursorY < 0) cursorY = (int)(numberOfRow - 1);
+        alignCursor(cursorX, cursorY);
     }
 
     private bool CheckSelectItem(itemList _selectedItem, ShopItem _currentShopItem, int _ID)
@@ -192,6 +195,9 @@ public class ClothesShop : MonoBehaviour
             {
                 seletedItensArray.RemoveAt(i);
                 seletedIDSArray.RemoveAt(i);
+
+                setInitClotheByType(_selectedItem.itemtype.ToString());
+                
                 _currentShopItem.unselectItem();
                 return false;
             }
@@ -199,13 +205,13 @@ public class ClothesShop : MonoBehaviour
 
         if(isExistNB != -1)
         {
-            Debug.Log("isExistNB : " + isExistNB);
             GameObject oldItem = itensShop[(int)seletedIDSArray[isExistNB]] as GameObject;
             ShopItem oldShopItem = oldItem.GetComponent<ShopItem>();
+
             oldShopItem.unselectItem();
+
             seletedItensArray.RemoveAt(isExistNB);
             seletedIDSArray.RemoveAt(isExistNB);
-            //oldItemType.un
         }
 
         seletedItensArray.Add(_selectedItem);
@@ -213,6 +219,8 @@ public class ClothesShop : MonoBehaviour
         _currentShopItem.selectItem();
         return true;
     }
+
+  
 
     private int checkExistType(itemList _selectedItem, ShopItem _currentShopItem)
     {
@@ -227,14 +235,39 @@ public class ClothesShop : MonoBehaviour
         return -1;
     }
 
-    private void updateCursor()
+    private void setInitClotheByType(string itemType)
     {
-        if (cursorX > 5) cursorX = 0;
-        if (cursorX < 0) cursorX = 5;
-        if (cursorY > (numberOfRow - 1)) cursorY = 0;
-        if (cursorY < 0) cursorY = (int)(numberOfRow - 1);
-        //Debug.Log("cursorX : " + cursorX);
-        //Debug.Log("cursorY : " + cursorY);
-        alignCursor(cursorX, cursorY);
+        shopPlayerCustomization shopPlayer = Char.GetComponent<shopPlayerCustomization>();
+
+        if (itemType == "hat")
+        {
+            GameObject currentPart = Char.GetComponent<shopPlayerCustomization>().Hat;
+            currentPart.GetComponent<Image>().sprite =  shopPlayer.initHatIMG;
+        }
+        else if (itemType == "glasses")
+        {
+            GameObject currentPart = Char.GetComponent<shopPlayerCustomization>().Glasses;
+            currentPart.GetComponent<Image>().sprite = shopPlayer.initGlassesIMG;
+        }
+        else if (itemType == "armor")
+        {
+            GameObject currentPart = Char.GetComponent<shopPlayerCustomization>().armor;
+            currentPart.GetComponent<Image>().sprite = shopPlayer.initArmorIMG;
+        }
     }
+
+    public void calculateTotal()
+    {
+        float totalCount = 0f;
+        for (int i = 0; i < seletedItensArray.Count; i++)
+        {
+            var currentSelected = seletedItensArray[i] as itemList;
+            totalCount += currentSelected.price;
+        }
+
+        float playerMoney = playerCoin.GetComponent<PlayerCoin>().coin;
+
+        total.GetComponent<TotalBuy>().setTotalValue(totalCount, playerMoney);
+    }
+   
 }

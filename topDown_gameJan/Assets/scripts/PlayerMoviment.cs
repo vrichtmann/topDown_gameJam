@@ -77,14 +77,14 @@ public class PlayerMoviment : MonoBehaviour
             headAnimator.SetFloat("Vertical", movimentDir.y);
         }
 
-        //bodyAnimator.SetFloat("Speed", moveSpeed);
-        //hairAnimator.SetFloat("Speed", moveSpeed);
-        //armorAnimator.SetFloat("Speed", moveSpeed);
-        //eyesAnimator.SetFloat("Speed", moveSpeed);
-        //glassAnimator.SetFloat("Speed", moveSpeed);
-        //hatAnimator.SetFloat("Speed", moveSpeed);
-        //headAnimator.SetFloat("Speed", moveSpeed);
-        //handsAnimator.SetFloat("Speed", moveSpeed);
+        bodyAnimator.SetFloat("Speed", moveSpeed);
+        hairAnimator.SetFloat("Speed", moveSpeed);
+        armorAnimator.SetFloat("Speed", moveSpeed);
+        eyesAnimator.SetFloat("Speed", moveSpeed);
+        glassAnimator.SetFloat("Speed", moveSpeed);
+        hatAnimator.SetFloat("Speed", moveSpeed);
+        headAnimator.SetFloat("Speed", moveSpeed);
+        handsAnimator.SetFloat("Speed", moveSpeed);
 
         changeSkin();
     }

@@ -1,0 +1,22 @@
+fileFormatVersion: 2
+guid: 05c934dfd2de96f4fb2edbbafc6a5397
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontNames:
+  - Ferrero Rocker
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: f46d63726c5f94e41b5ff56988ca3bd5, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

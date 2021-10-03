@@ -54,6 +54,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Assets\scripts\GameHandler.cs" />
+    <Compile Include="Assets\scripts\UI\shopPlayerCustomization.cs" />
     <Compile Include="Assets\scripts\UI\itemList.cs" />
     <Compile Include="Assets\scripts\PlayerMoviment.cs" />
     <Compile Include="Assets\scripts\UI\custozimeCharacter.cs" />
@@ -65,7 +66,8 @@
     <Compile Include="Assets\scripts\UI\ShopItem.cs" />
     <Compile Include="Assets\scripts\UI\clotheTypeController.cs" />
     <Compile Include="Assets\scripts\Npc.cs" />
-    <Compile Include="Assets\scripts\UI\shopPlayerCustomization.cs" />
+    <Compile Include="Assets\scripts\UI\TotalBuy.cs" />
+    <Compile Include="Assets\scripts\UI\PlayerCoin.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
