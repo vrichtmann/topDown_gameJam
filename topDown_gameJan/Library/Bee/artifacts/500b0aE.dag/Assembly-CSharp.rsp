@@ -334,11 +334,18 @@
 -r:"Library/Bee/artifacts/500b0aE.dag/Unity.VSCode.Editor.ref.dll"
 -r:"Library/Bee/artifacts/500b0aE.dag/UnityEditor.UI.ref.dll"
 -r:"Library/Bee/artifacts/500b0aE.dag/UnityEngine.UI.ref.dll"
-"Assets/custozimeCharacter.cs"
 "Assets/scripts/CameraFollow.cs"
 "Assets/scripts/GameHandler.cs"
 "Assets/scripts/Npc.cs"
 "Assets/scripts/PlayerMoviment.cs"
+"Assets/scripts/UI/ClothesShop.cs"
+"Assets/scripts/UI/clotheTypeController.cs"
+"Assets/scripts/UI/custozimeCharacter.cs"
+"Assets/scripts/UI/itemList.cs"
+"Assets/scripts/UI/OptionControl.cs"
+"Assets/scripts/UI/OptionType.cs"
+"Assets/scripts/UI/ShopItem.cs"
+"Assets/scripts/UI/ShopList.cs"
 -langversion:9.0
 
 /deterministic

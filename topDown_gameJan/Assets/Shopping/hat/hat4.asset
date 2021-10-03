@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b27fe1d90b307ec4c84f2d2dfb9f44d1, type: 3}
+  m_Name: hat4
+  m_EditorClassIdentifier: 
+  itemName: Hat 4
+  id: hat4
+  itemtype: 2
+  figure: {fileID: 21300000, guid: 92c1b2de9e3e24a438089d048c99b415, type: 3}
+  price: 200
