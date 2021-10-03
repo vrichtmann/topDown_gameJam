@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: Hat 4
   id: hat4
-  itemtype: 2
+  itemtype: 1
   figure: {fileID: 21300000, guid: 92c1b2de9e3e24a438089d048c99b415, type: 3}
   price: 200

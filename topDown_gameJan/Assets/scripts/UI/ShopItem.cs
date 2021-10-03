@@ -6,9 +6,21 @@ public class ShopItem : MonoBehaviour
 {
     public GameObject placeHolder;
     public GameObject nameItem;
+    public GameObject textBox;
     public GameObject priceItem;
     public GameObject ItemImg;
+    public GameObject cursorIcon;
+    public GameObject selected;
 
+    private void Start()
+    {
+        //cursorIcon.gameObject.active = false;
+        // textBox.gameObject.active = false;
+        cursorIcon.gameObject.GetComponent<Image>().color = new Color(255f, 255f, 255f, 0);
+        nameItem.gameObject.GetComponent<Text>().color = new Color(255f, 255f, 255f, 0);
+        textBox.gameObject.GetComponent<Image>().color = new Color(255f, 255f, 255f, 0);
+        selected.gameObject.GetComponent<Image>().color = new Color(255f, 255f, 255f, 0);
+    }
     public void setNameItem(string _name)
     {
         nameItem.GetComponent<Text>().text = _name;
@@ -23,6 +35,30 @@ public class ShopItem : MonoBehaviour
     {
         ItemImg.GetComponent<Image>().sprite = _image;
         placeHolder.gameObject.SetActive(false);
+    }
+
+    public void selectItem()
+    {
+        selected.gameObject.GetComponent<Image>().color = new Color(255f, 255f, 255f, 1);
+    }
+
+    public void unselectItem()
+    {
+        selected.gameObject.GetComponent<Image>().color = new Color(255f, 255f, 255f, 0);
+    }
+
+    public void onCursor()
+    {
+        cursorIcon.gameObject.GetComponent<Image>().color = new Color(255f, 255f, 255f, 1);
+        textBox.gameObject.GetComponent<Image>().color = new Color(255f, 255f, 255f, 1);
+        nameItem.gameObject.GetComponent<Text>().color = new Color(255f, 255f, 255f, 1);
+    }
+
+    public void outCursor()
+    {
+        cursorIcon.gameObject.GetComponent<Image>().color = new Color(255f, 255f, 255f, 0);
+        textBox.gameObject.GetComponent<Image>().color = new Color(255f, 255f, 255f, 0);
+        nameItem.gameObject.GetComponent<Text>().color = new Color(255f, 255f, 255f, 0);
     }
 
     public void setPlaceHolder() {

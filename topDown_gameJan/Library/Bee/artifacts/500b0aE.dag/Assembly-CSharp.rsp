@@ -346,6 +346,7 @@
 "Assets/scripts/UI/OptionType.cs"
 "Assets/scripts/UI/ShopItem.cs"
 "Assets/scripts/UI/ShopList.cs"
+"Assets/scripts/UI/shopPlayerCustomization.cs"
 -langversion:9.0
 
 /deterministic

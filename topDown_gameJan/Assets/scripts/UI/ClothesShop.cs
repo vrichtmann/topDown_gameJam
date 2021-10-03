@@ -10,23 +10,31 @@ public class ClothesShop : MonoBehaviour
     [SerializeField] ArrayList itensShop;
     [SerializeField] GameObject rowShopping;
     [SerializeField] GameObject shopItem;
-    [SerializeField] GameObject cursor;
-    
+    [SerializeField] GameObject Char;
+
 
     [SerializeField] itemList[] forsale;
+
+    ArrayList seletedItensArray;
+    ArrayList seletedIDSArray;
+
     private int cursorX = 0;
     private int cursorY = 0;
     private float numberOfRow;
+    private int lastCursorIndex = 0;
     // Start is called before the first frame update
     void Start()
     {
         itensShop = new ArrayList();
+        seletedItensArray = new ArrayList();
+        seletedIDSArray = new ArrayList();
         createClothesMenu();
-        alignCursor(2, cursorY);
     }
 
     void Update(){
         cursorListener();
+        selectItemListener();
+        alignCursor(cursorX, cursorY);
     }
 
     private void createClothesMenu(){
@@ -67,7 +75,7 @@ public class ClothesShop : MonoBehaviour
                     currentItemShop = Instantiate(shopItem, new Vector3(0, 0, 0), Quaternion.identity);
                     currentItemShop.transform.parent = currentRigthRow.transform;//this.transform;
                 }
-               
+
                 if (!isPlaceHolder) currentItemList = forsale[i];
 
                 setClothes(currentItemShop, isPlaceHolder, currentItemList);
@@ -97,45 +105,136 @@ public class ClothesShop : MonoBehaviour
 
     private void alignCursor(int _row, int _colunm)
     {
-        Debug.Log("MUDOU ROW : " + _row);
-        Debug.Log("MUDOU Column : " + _colunm);
-        GameObject targetCursorItem = itensShop[0] as GameObject;
-        Vector3 targetPos = targetCursorItem.GetComponent<RectTransform>().localPosition;
-        float rigthValue = _row > 2 ? 150 : 0;
-        cursor.GetComponent<RectTransform>().localPosition = new Vector3(targetPos.x - 110 + (_row * 32) + rigthValue, targetPos.y + 17 - (_colunm * 50), targetPos.z);
+        //Debug.Log("MUDOU ROW : " + _row);
+        //Debug.Log("MUDOU Column : " + _colunm);
+        int indexCursor = _row + (_colunm * 6);
+        
+        GameObject oldCursorItem = itensShop[lastCursorIndex] as GameObject;
+        ShopItem oldItem = oldCursorItem.GetComponent<ShopItem>();
+        oldItem.outCursor();
+
+        GameObject targetCursorItem = itensShop[indexCursor] as GameObject;
+        ShopItem item = targetCursorItem.GetComponent<ShopItem>();
+        item.onCursor();
+        lastCursorIndex = indexCursor;
     }
 
     void cursorListener(){
-        if (Input.GetKeyDown(KeyCode.U))
+        if (Input.GetKeyDown(KeyCode.W))
         {
             cursorY -= 1;
             updateCursor();
         }
-        if (Input.GetKeyDown(KeyCode.J))
+        if (Input.GetKeyDown(KeyCode.S))
         {
             cursorY += 1;
             updateCursor();
         }
-        if (Input.GetKeyDown(KeyCode.H))
+        if (Input.GetKeyDown(KeyCode.A))
         {
             cursorX -= 1;
             updateCursor();
         }
-        if (Input.GetKeyDown(KeyCode.K))
+        if (Input.GetKeyDown(KeyCode.D))
         {
             cursorX += 1;
             updateCursor();
         }
     }
 
+    private void selectItemListener() {
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            GameObject currentPart;
+            int currrentID = cursorX + (cursorY * 6);
+            GameObject targetSkin =  Resources.Load<GameObject>("UI/Shop/" + forsale[currrentID].itemtype + "/" + forsale[currrentID].id) ;
+
+            if(forsale[currrentID].itemtype.ToString() == "hat")
+            {
+                currentPart = Char.GetComponent<shopPlayerCustomization>().Hat;
+                currentPart.GetComponent<Image>().sprite = targetSkin.GetComponent<Image>().sprite;
+            }
+            else if (forsale[currrentID].itemtype.ToString() == "glasses")
+            {
+                currentPart = Char.GetComponent<shopPlayerCustomization>().Glasses;
+                currentPart.GetComponent<Image>().sprite = targetSkin.GetComponent<Image>().sprite;
+            }
+            else if (forsale[currrentID].itemtype.ToString() == "armor")
+            {
+                currentPart = Char.GetComponent<shopPlayerCustomization>().armor;
+                currentPart.GetComponent<Image>().sprite = targetSkin.GetComponent<Image>().sprite;
+            }
+
+            GameObject currentShopItemGB = itensShop[currrentID] as GameObject;
+            ShopItem currenShopItem = currentShopItemGB.GetComponent<ShopItem>();
+            CheckSelectItem(forsale[currrentID],  currenShopItem, currrentID);
+            //if (CheckSelectItem(forsale[currrentID]),  currentShopItem.GetComponent<ShopItem>())
+            //{
+            //    currentShopItem.GetComponent<ShopItem>().selectItem();
+            //}
+            //else
+            //{
+            //    currentShopItem.GetComponent<ShopItem>().unselectItem();
+            //}
+            Debug.Log("seletedItensArray : " + seletedItensArray);
+        }
+    }
+
+    private bool CheckSelectItem(itemList _selectedItem, ShopItem _currentShopItem, int _ID)
+    {
+
+        int isExistNB = checkExistType(_selectedItem, _currentShopItem);
+
+        for (int i = 0; i < seletedItensArray.Count; i++)
+        {
+            var currentSelected = seletedItensArray[i] as itemList;
+            if (_selectedItem.id == currentSelected.id)
+            {
+                seletedItensArray.RemoveAt(i);
+                seletedIDSArray.RemoveAt(i);
+                _currentShopItem.unselectItem();
+                return false;
+            }
+        }
+
+        if(isExistNB != -1)
+        {
+            Debug.Log("isExistNB : " + isExistNB);
+            GameObject oldItem = itensShop[(int)seletedIDSArray[isExistNB]] as GameObject;
+            ShopItem oldShopItem = oldItem.GetComponent<ShopItem>();
+            oldShopItem.unselectItem();
+            seletedItensArray.RemoveAt(isExistNB);
+            seletedIDSArray.RemoveAt(isExistNB);
+            //oldItemType.un
+        }
+
+        seletedItensArray.Add(_selectedItem);
+        seletedIDSArray.Add(_ID);
+        _currentShopItem.selectItem();
+        return true;
+    }
+
+    private int checkExistType(itemList _selectedItem, ShopItem _currentShopItem)
+    {
+        for (int i = 0; i < seletedItensArray.Count; i++)
+        {
+            itemList currentSelected = seletedItensArray[i] as itemList;
+            if (_selectedItem.itemtype == currentSelected.itemtype && _selectedItem.id != currentSelected.id)
+            {
+                return i;
+            }
+        }
+        return -1;
+    }
+
     private void updateCursor()
     {
         if (cursorX > 5) cursorX = 0;
         if (cursorX < 0) cursorX = 5;
-        if (cursorY > numberOfRow) cursorY = 0;
-        if (cursorY < 0) cursorY = (int)numberOfRow;
-        Debug.Log("cursorX : " + cursorX);
-        Debug.Log("cursorY : " + cursorY);
+        if (cursorY > (numberOfRow - 1)) cursorY = 0;
+        if (cursorY < 0) cursorY = (int)(numberOfRow - 1);
+        //Debug.Log("cursorX : " + cursorX);
+        //Debug.Log("cursorY : " + cursorY);
         alignCursor(cursorX, cursorY);
     }
 }
