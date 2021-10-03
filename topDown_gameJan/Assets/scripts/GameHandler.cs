@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEditor.UI;
+
 
 public class GameHandler : MonoBehaviour
 {
@@ -15,22 +15,22 @@ public class GameHandler : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        cameraFollow.Setup(() => playerTransform.position);
+        //cameraFollow.Setup(() => playerTransform.position);
     }
 
     public void selectCameraChar(int _camera){
-        if (_camera == 1){
-            cameraFollow.SetGetCameraFollowPositionFunc(() => playerTransform.position);
-        }
-        else if (_camera == 2){
-            cameraFollow.SetGetCameraFollowPositionFunc(() => character1Transform.position);
-        }
-        else if (_camera == 3){
-            cameraFollow.SetGetCameraFollowPositionFunc(() => character2Transform.position);
-        }
-        else if (_camera == 4) {
-            cameraFollow.SetGetCameraFollowPositionFunc(() => ManualMovimentTransform.position);
-        }
+        //if (_camera == 1){
+        //    cameraFollow.SetGetCameraFollowPositionFunc(() => playerTransform.position);
+        //}
+        //else if (_camera == 2){
+        //    cameraFollow.SetGetCameraFollowPositionFunc(() => character1Transform.position);
+        //}
+        //else if (_camera == 3){
+        //    cameraFollow.SetGetCameraFollowPositionFunc(() => character2Transform.position);
+        //}
+        //else if (_camera == 4) {
+        //    cameraFollow.SetGetCameraFollowPositionFunc(() => ManualMovimentTransform.position);
+        //}
     }
 
 }
