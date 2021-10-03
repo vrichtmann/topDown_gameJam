@@ -9,6 +9,7 @@ public class Npc : MonoBehaviour
 
     [SerializeField] private GameObject ETalk;
     [SerializeField] private GameObject Shop;
+    [SerializeField] private PlayerMoviment PlayerMV;
     void Start()
     {
         
@@ -20,6 +21,7 @@ public class Npc : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space) && ETalk.active)
         {
             Shop.gameObject.active = true;
+            PlayerMV.inShop = true;
         }
     }
 

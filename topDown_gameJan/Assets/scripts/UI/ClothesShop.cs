@@ -102,26 +102,11 @@ public class ClothesShop : MonoBehaviour
             currentItem.setNameItem(_currentItemList.itemName);
             currentItem.setPriceItem(_currentItemList.price);
             currentItem.setItemImg(_currentItemList.figure);
-            if (checkIsBought(_currentItemList)){
-                currentItem.activeSoldOut();
-            }
         }
         else
         {
             currentItem.setPlaceHolder();
         }
-    }
-
-    private bool checkIsBought(itemList _shopItem){
-        for(int i = 0; i < boughtItemsArray.Count; i++)
-        {
-            itemList bouthItemList = boughtItemsArray[i] as itemList;
-            if (bouthItemList.id == _shopItem.id)
-            {
-                return true;
-            }
-        }
-        return false;
     }
 
     private void alignCursor(int _row, int _colunm)
@@ -186,8 +171,13 @@ public class ClothesShop : MonoBehaviour
 
             GameObject currentShopItemGB = itensShop[currrentID] as GameObject;
             ShopItem currenShopItem = currentShopItemGB.GetComponent<ShopItem>();
-            CheckSelectItem(forsale[currrentID],  currenShopItem, currrentID);
-            calculateTotal();
+
+            if (!currenShopItem.isSouldOut)
+            {
+                CheckSelectItem(forsale[currrentID], currenShopItem, currrentID);
+                calculateTotal();
+            }
+           
         }
     }
 
@@ -305,6 +295,7 @@ public class ClothesShop : MonoBehaviour
                 seletedItensArray = new ArrayList();
                 seletedIDSArray = new ArrayList();
 
+                total.GetComponent<TotalBuy>().setTotalValue((0), playerMoney);
                 Shop.gameObject.active = false;
             }
         }
@@ -319,12 +310,18 @@ public class ClothesShop : MonoBehaviour
             var currentSelected = seletedItensArray[i] as itemList;
 
             boughtItemsArray.Add(currentSelected);
+           
             playerMV.changeSkin(currentSelected.id.ToString(), currentSelected.itemtype.ToString());
 
             GameObject currentSelectedItem = itensShop[(int)seletedIDSArray[i]] as GameObject;
             ShopItem targetShopItem = currentSelectedItem.GetComponent<ShopItem>();
+            targetShopItem.activeSoldOut();
             targetShopItem.unselectItem();
+            targetShopItem.isSouldOut = true;
+            Char.GetComponent<shopPlayerCustomization>().setInitSprites();
         }
+
+        playerMV.inShop = false;
     }
 
 }

@@ -7,6 +7,7 @@ public class ShopManager : MonoBehaviour
 {
     public GameObject BG;
     public GameObject BGIMG;
+    [SerializeField] private PlayerMoviment PlayerMV;
     void Start()
     {
         this.gameObject.SetActive(false);
@@ -17,6 +18,7 @@ public class ShopManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
         {
             this.gameObject.SetActive(false);
+            PlayerMV.inShop = false;
         }
     }
 }

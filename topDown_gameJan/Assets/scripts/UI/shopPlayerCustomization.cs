@@ -14,9 +14,13 @@ public class shopPlayerCustomization : MonoBehaviour
     [HideInInspector] public Sprite initGlassesIMG;
     void Start()
     {
+        setInitSprites();
+    }
+
+    public void setInitSprites()
+    {
         initArmorIMG = armor.GetComponent<Image>().sprite;
         initHatIMG = Hat.GetComponent<Image>().sprite;
         initGlassesIMG = Glass.GetComponent<Image>().sprite;
     }
-
 }

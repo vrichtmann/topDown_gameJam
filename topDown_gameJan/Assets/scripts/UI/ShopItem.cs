@@ -13,6 +13,8 @@ public class ShopItem : MonoBehaviour
     public GameObject selected;
     public GameObject soldOut;
 
+    public bool isSouldOut = false;
+
     private void Start()
     {
         //cursorIcon.gameObject.active = false;
@@ -41,7 +43,7 @@ public class ShopItem : MonoBehaviour
 
     public void activeSoldOut()
     {
-        soldOut.gameObject.GetComponent<Image>().color = new Color(255f, 255f, 255f, 0);
+        soldOut.gameObject.GetComponent<Image>().color = new Color(255f, 255f, 255f, 1);
     }
 
     public void selectItem()
